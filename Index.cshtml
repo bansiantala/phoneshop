@@ -1,0 +1,79 @@
+﻿@model List<phoneshop.Models.AdminPurchase>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2 class="mb-4">Order / Purchase List</h2>
+
+<div class="card shadow">
+    <div class="card-body">
+
+        @if (!Model.Any())
+        {
+            <div class="alert alert-info text-center">
+                No Orders Available
+            </div>
+        }
+        else
+        {
+            <table class="table table-bordered table-hover text-center align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>User</th>
+                        <th>Product</th>
+                        <th>Image</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.registration_username</td>
+
+                            <td>@item.product_name</td>
+
+                            <td>
+                                <img src="~/images/@item.product_image"
+                                     width="60" height="60"
+                                     style="object-fit:cover; border-radius:8px;" />
+                            </td>
+
+                            <td>
+                                <span class="badge bg-primary">
+                                    @item.a_quantity
+                                </span>
+                            </td>
+
+                            <td>₹@item.product_price</td>
+
+                            <td>
+                                <strong>
+                                    ₹@(item.a_quantity* item.product_price)
+                                </strong>
+                            </td>
+
+                            <td>
+                                <form asp-action="Delete" method="post">
+                                    <input type="hidden" name="id" value="@item.addtocart_id" />
+
+                                    <button class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Delete this order?')">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        }
+
+    </div>
+</div>
